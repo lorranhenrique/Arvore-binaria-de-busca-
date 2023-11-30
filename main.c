@@ -63,6 +63,23 @@ int busca(Arvore *a, int n) {
     }
 }
 
+Arvore *remover(Arvore *a, int n){
+    if (estaVazia(a)) {
+        return a;
+    } else {
+        if (a->info == n) {
+            return a;
+        } else {
+            if (busca(a->esquerda, n)) {
+                return a;
+            } else {
+                return busca(a->direita, n);
+            }
+        }
+    }
+
+}
+
 void imprimePre(Arvore *a) {
     if (!estaVazia(a)) {
         printf("%d ", a->info);
@@ -90,8 +107,8 @@ void imprimePos(Arvore *a) {
 int main() {
     setlocale(LC_ALL,"portuguese");
 
-    printf("ARVORE BINÁRIA DE BUSCA");
-    printf("O que deseja ? \n\n[1]INSERIR\n[2]REMOVER\n[3]IMPRESSÃO PRE-ORDEM\n[4]IMPRESSÃO EM-ORDEM\n[5]IMPRESSÃO PÓS-ORDEM\n");
+    printf("\\\\\\\\\\\\\\\\\\\\\\\\\\\\ARVORE BINÁRIA DE BUSCA\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    printf(" \n\nO que deseja ? \n\n[1]INSERIR\n[2]REMOVER\n[3]BUSCAR\n[4]IMPRESSÃO PRE-ORDEM\n[5]IMPRESSÃO EM-ORDEM\n[6]IMPRESSÃO PÓS-ORDEM\n");
 
     int op,valor;
     Arvore *p=NULL;
@@ -100,21 +117,33 @@ int main() {
             scanf("%d",&op);
         switch(op){
             case 1:
-                printf("Informe o valor do No ");
+                printf("Informe o valor do No: ");
                 scanf("%d",&valor);
                 p=inserir(valor,p);
                 break;
             case 2:
+                printf("Informe o valor do No que deseja remover: ");
+                scanf("%d",&valor);
+                p=remover(p,valor);
                 break;
             case 3:
+                printf("Informe o valor do No que deseja buscar: ");
+                scanf("%d",&valor);
+                if (!busca(p,valor)){
+                    printf("\nInformacao INEXISTENTE!\n");
+                }else{
+                    printf("\nInformacao ENCONTRADA COM SUCESSO!\n");
+                }
+                break;
+            case 4:
                 imprimePre(p);
                 printf("\n");
                 break;
-            case 4:
+            case 5:
                 imprimeIn(p);
                 printf("\n");
                 break;
-            case 5:
+            case 6:
                 imprimePos(p);
                 printf("\n");
                 break;
