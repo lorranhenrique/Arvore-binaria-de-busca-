@@ -63,21 +63,39 @@ int busca(Arvore *a, int n) {
     }
 }
 
-Arvore *remover(Arvore *a, int n){
-    if (estaVazia(a)) {
+Arvore *menorNo(Arvore* no) {
+    Arvore* atual = no;
+    while (atual->esquerda != NULL) {
+        atual = atual->esquerda;
+    }
+    return atual;
+}
+
+Arvore* remover(Arvore* a, int n) {
+    if (a == NULL) {
         return a;
     } else {
-        if (a->info == n) {
-            return a;
+        if (n < a->info) {
+            a->esquerda = remover(a->esquerda, n);
+        } else if (n > a->info) {
+            a->direita = remover(a->direita, n);
         } else {
-            if (busca(a->esquerda, n)) {
-                return a;
-            } else {
-                return busca(a->direita, n);
+            if (a->esquerda == NULL) {
+                Arvore* temp = a->direita;
+                free(a);
+                return temp;
+            } else if (a->direita == NULL) {
+                Arvore* temp = a->esquerda;
+                free(a);
+                return temp;
             }
-        }
-    }
 
+            Arvore* temp = menorNo(a->direita);
+            a->info = temp->info;
+            a->direita = remover(a->direita, temp->info);
+        }
+        return a;
+    }
 }
 
 void imprimePre(Arvore *a) {
@@ -136,16 +154,31 @@ int main() {
                 }
                 break;
             case 4:
-                imprimePre(p);
-                printf("\n");
+                if(p==NULL){
+                    printf("Arvore vazia!");
+                }else{
+                    imprimePre(p);
+                    printf("\n");
+                }
                 break;
             case 5:
-                imprimeIn(p);
-                printf("\n");
+                if(p==NULL){
+                    printf("Arvore vazia!");
+                }else{
+                    imprimeIn(p);
+                    printf("\n");
+                }
                 break;
             case 6:
-                imprimePos(p);
-                printf("\n");
+                if(p==NULL){
+                    printf("Arvore vazia!");
+                }else{
+                    imprimePos(p);
+                    printf("\n");
+                }
+                break;
+            case 0:
+                printf("FINALIZANDOOOOOOOOOOOOOOOOOOOO");
                 break;
             default:
                 printf("Opcao invalida");
