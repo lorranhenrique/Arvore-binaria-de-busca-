@@ -33,6 +33,20 @@ Arvore *libera(Arvore *a) {
     return NULL;
 }
 
+Arvore *inserir(int n,Arvore *a){
+    if(estaVazia(a)){
+        return criaNo(n,inicializa(),inicializa());
+    }else{
+        if(n < a->info){
+            a->esquerda=inserir(n,a->esquerda);
+        }
+        if(n > a->info){
+            a->direita=inserir(n,a->direita);
+        }
+        return a;
+    }
+}
+
 int busca(Arvore *a, int n) {
     if (estaVazia(a)) {
         return 0;
@@ -76,47 +90,40 @@ void imprimePos(Arvore *a) {
 int main() {
     setlocale(LC_ALL,"portuguese");
 
-    Arvore *D = criaNo(3, inicializa(), inicializa());
-    Arvore *E = criaNo(5, inicializa(), inicializa());
-    Arvore *F = criaNo(4, inicializa(), inicializa());
-    Arvore *G = criaNo(6, inicializa(), inicializa());
-    Arvore *B = criaNo(1, D, E);
-    Arvore *C = criaNo(2, F, G);
-    Arvore *A = criaNo(0, B, C);
+    printf("ARVORE BINÁRIA DE BUSCA");
+    printf("O que deseja ? \n\n[1]INSERIR\n[2]REMOVER\n[3]IMPRESSÃO PRE-ORDEM\n[4]IMPRESSÃO EM-ORDEM\n[5]IMPRESSÃO PÓS-ORDEM\n");
 
-    printf("Impressão pré-ordem: ");
-    imprimePre(A);
-    printf("\n");
+    int op,valor;
+    Arvore *p=NULL;
 
-    printf("Impressão em ordem: ");
-    imprimeIn(A);
-    printf("\n");
+    do{
+            scanf("%d",&op);
+        switch(op){
+            case 1:
+                printf("Informe o valor do No ");
+                scanf("%d",&valor);
+                p=inserir(valor,p);
+                break;
+            case 2:
+                break;
+            case 3:
+                imprimePre(p);
+                printf("\n");
+                break;
+            case 4:
+                imprimeIn(p);
+                printf("\n");
+                break;
+            case 5:
+                imprimePos(p);
+                printf("\n");
+                break;
+            default:
+                printf("Opcao invalida");
+        }
+    }while(op!=0);
 
-    printf("Impressão pós-ordem: ");
-    imprimePos(A);
-    printf("\n");
-
-    if (!busca(A, 111)) {
-        printf("INFORMAÇÃO INEXISTENTE\n");
-    } else {
-        printf("INFORMAÇÃO ENCONTRADA\n");
-    }
-
-    A = libera(A);
-
-    printf("Após liberar a árvore:\n");
-
-    printf("Impressão pré-ordem: ");
-    imprimePre(A);
-    printf("\n");
-
-    printf("Impressão em ordem: ");
-    imprimeIn(A);
-    printf("\n");
-
-    printf("Impressão pós-ordem: ");
-    imprimePos(A);
-    printf("\n");
-
-    return 0;
+     return 0;
 }
+
+
